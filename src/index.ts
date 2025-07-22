@@ -8,8 +8,11 @@ import { AppError, ErrorType } from './types/errors';
 // 创建Express应用
 const app = express();
 
-// 初始化服务依赖
-const tronClient = new TronClient();
+const tronClient = new TronClient({
+  baseUrl: config.tronNodeUrl,
+  timeout: config.requestTimeout,
+  maxRetries: config.maxRetries
+});
 const blockProcessor = new BlockProcessor();
 
 // 中间件配置
@@ -29,7 +32,8 @@ app.get('/health', (req: Request, res: Response) => {
 app.get('/latest-block', async (req: Request, res: Response, next: NextFunction) => {
   try {
     logger.info('请求获取最新区块信息');
-    const rawBlock = await tronClient.getLatestBlock();
+    // 获取最新区块详情并格式化
+    const rawBlock = await tronClient.getRawLatestBlock();
     const formattedBlock = blockProcessor.formatBlockData(rawBlock);
     const isValid = blockProcessor.validateBlockData(formattedBlock);
 

@@ -13,7 +13,7 @@ export class HealthRoute extends BaseRoute {
   /**
    * 初始化路由
    */
-  protected initializeRoutes(): void {
+  public initializeRoutes(): void {
     this.router.get('/', asyncHandler(this.getHealthStatus.bind(this)));
   }
 
@@ -32,7 +32,6 @@ export class HealthRoute extends BaseRoute {
   }
 }
 
-// 导出路由工厂函数
 export default function healthRoutes(tronClient: TronClient) {
-  return new HealthRoute(tronClient).getRouter();
+  return new HealthRoute(tronClient).router;
 }

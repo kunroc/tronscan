@@ -1,4 +1,5 @@
 import { logger } from '../utils/logger';
+import { RawBlockData } from '../types/rawBlockData';
 
 export interface BlockData {
   blockNumber: number;
@@ -14,7 +15,7 @@ export class BlockProcessor {
    * @param rawBlockData 原始区块数据
    * @returns 格式化后的区块数据
    */
-  formatBlockData(rawBlockData: any): BlockData {
+  formatBlockData(rawBlockData: RawBlockData): BlockData {
     if (!rawBlockData || !rawBlockData.block_header) {
       throw new Error('无效的区块数据结构');
     }
